@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+</head>
+
+<body>
+    <h1>Update User</h1>
+    <form id="updateUserForm">
+        <label for="oldName">Current Name:</label>
+        <input type="text" id="oldName" name="oldName" required>
+        <br>
+        <label for="newName">New Name:</label>
+        <input type="text" id="newName" name="newName" required>
+        <br>
+        <button type="submit">Update User</button>
+    </form>
+    <p id="responseMessage"></p>
+
+    <script>
+        document.getElementById('updateUserForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const oldName = document.getElementById('oldName').value;
+            const newName = document.getElementById('newName').value;
+
+            try {
+                const response = await fetch('/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ oldName, newName }),
+                });
+
+                const result = await response.json();
+                document.getElementById('responseMessage').textContent = result.msg;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>
